@@ -102,7 +102,7 @@ const onFinish = async (values) => {
 
                     <div className="pt-1 mb-2">
                       <Button
-                        className="btn btn-lg pb-5 btn-block"
+                        className="btn btn-lg pb-5"
                         htmlType="submit"
                         style={{
                           backgroundColor: "#333",

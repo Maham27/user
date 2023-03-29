@@ -171,7 +171,7 @@ function Joinasalawyer() {
 
         <div className="text-center">
           <Button
-            className="btn btn-lg pb-5 btn-block mb-2 font-weight-bold"
+            className="btn btn-lg pb-5  mb-2 font-weight-bold"
             htmlType="submit"
             style={{
               backgroundColor: "black",

@@ -1,5 +1,4 @@
 import React,{useState} from 'react'
-import {Badge} from 'antd'
 import { useSelector } from 'react-redux';
 import '../layouts.css'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -19,12 +18,12 @@ function Layout({children}) {
       },
       {
         name: "Clients",
-        path: "users",
+        path: "/admin/userslist",
         icon: "fa fa-user",
       },
       {
         name: "Lawyers",
-        path: "/lawyers",
+        path: "/admin/lawyerslist",
         icon: "fa fa-balance-scale",
       },
       {
@@ -88,7 +87,10 @@ function Layout({children}) {
                     currentlocation && "active-iconnames"
                   }`}
                 >
-                  <i className={menu.icon}></i>
+                  <Link className="m-1" to={menu.path}>
+                    <i className={menu.icon}></i>
+                  </Link>
+
                   {!collapsed && (
                     <Link className="m-1" to={menu.path}>
                       {menu.name}
@@ -117,7 +119,12 @@ function Layout({children}) {
         <div className="content">
           <div className="header mb-1">
             <div className="d-flex justify-content-end px-1">
-              <span className="badge">{user?.unseennotifications.length}</span>
+              <span
+                className="badge"
+                onClick={() => navigation("/notifications")}
+              >
+                {user?.unseennotifications.length}{" "}
+              </span>
             </div>
             <div className="d-flex justify-content-end username">
               <Link to="/profile" className="px-2">
