@@ -10,6 +10,8 @@ import { hideloading, showloading } from '../redux/alertslice';
 function Protectedroutes(props) {
 
     const {user}=useSelector((state)=>state.user);
+    console.log(user);
+
     const navigation=useNavigate();
     const dispatched=useDispatch();
     const getUser=async()=>{

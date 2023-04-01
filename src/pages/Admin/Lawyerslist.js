@@ -4,6 +4,7 @@ import Layout from "../../components/Layout";
 import { showloading, hideloading } from "../../redux/alertslice";
 import axios from "axios";
 import { Table } from "antd";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 function Lawyerslist() {
@@ -28,6 +29,28 @@ function Lawyerslist() {
         dispatched(hideloading());
       }
     };
+    const changelawyerstatus = async (record, status) => {
+      try {
+        dispatched(showloading());
+        const response = await axios.post(
+          "/api/admin/changelawyerstatus",
+          { lawyerId: record._id, userId: record.userId, status: status },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        dispatched(hideloading());
+        if(response.data.success) {
+          toast.success(response.data.message);
+          getlawyersdata();
+        }
+      } catch (error) {
+        toast.error("Error in changing lawyer status");
+        dispatched(hideloading());
+      }
+    };
     useEffect(() => {
       getlawyersdata();
     }, []);
@@ -38,7 +61,7 @@ function Lawyerslist() {
         dataIndex: "firstname",
         render: (text, record) => (
           <h5 className="card-text">
-            {record.firstname} 
+            {record.firstname}
             {record.lastname}
           </h5>
         ),
@@ -59,10 +82,18 @@ function Lawyerslist() {
       {
         title: "Actions",
         dataIndex: "actions",
-        render: (text, records) => (
+        render: (text, record) => (
           <div className="d-flex">
-            {records.status==="pending" && <Link>Approve</Link>}
-            {records.status==="approved" && <Link>Block</Link>}
+            {record.status === "pending" && (
+              <Link onClick={() => changelawyerstatus(record, 'approved')}>
+                Approve
+              </Link>
+            )}
+            {record.status === "approved" && (
+              <Link onClick={() => changelawyerstatus(record, 'blocked')}>
+                Block
+              </Link>
+            )}
           </div>
         ),
       },
